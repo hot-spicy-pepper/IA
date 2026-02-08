@@ -35,6 +35,10 @@ public class TeacherMainController extends BaseController {
     public MenuItem deleteQuizMenu;
     @FXML
     public MenuItem importFlashcardMenu;
+    @FXML
+    public MenuItem addTagMenu;
+    @FXML
+    public MenuItem deleteTagMenu;
 
     @Override
     public void initialize(java.net.URL location, java.util.ResourceBundle resources) {
