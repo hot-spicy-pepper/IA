@@ -1,11 +1,15 @@
 package com.ia.ia_base.controllers.teachers;
 
 import com.ia.ia_base.controllers.BaseController;
+import com.ia.ia_base.database.dao.TagDAO;
+import com.ia.ia_base.models.Tag;
+import com.ia.ia_base.util.AlertManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class CreateTagController extends BaseController {
@@ -16,6 +20,8 @@ public class CreateTagController extends BaseController {
     @FXML
     public Button cancelBTN;
 
+    public TagDAO tagDAO;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setupActions();
@@ -25,6 +31,18 @@ public class CreateTagController extends BaseController {
         cancelBTN.setOnAction(e -> {
             closeWindow();
         });
-        
+        createTagBTN.setOnAction(e -> {
+            Tag tag = new Tag(TagTextField.getText());
+            tagDAO = new TagDAO();
+            if (AlertManager.showConfirmation("Create new tag", "Are you sure you want to create a new tag?", "A new tag will be created")){
+                try {
+                    tagDAO.create(tag);
+                    AlertManager.showInfo("Success", "Tag successfully created");
+                    closeWindow();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
     }
 }
